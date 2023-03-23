@@ -8,7 +8,6 @@
   box-sizing: border-box;
   color: #fff;
   font-family: 'Rubik', sans-serif;
-
 }
 
 .appliaction-name{
@@ -181,7 +180,9 @@ scrollbar-width: none;
   width: 45px;
   border-radius: 50%;
   margin-right: 12px;
-  border: 1px solid #0078F2;
+  padding: 7px;
+  border: 1px solid #fff;
+  overflow: visible;
 }
 .person-name{
   font-size: 1.1rem;

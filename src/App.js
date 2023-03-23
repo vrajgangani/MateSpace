@@ -14,7 +14,7 @@ function App() {
     <>
       <BrowserRouter>
         <div className="app">
-          <LoginContext.Provider value={{ setUserLogin, setUserName }}>
+          <LoginContext.Provider value={{ setUserLogin, setUserName,userName }}>
             {userLogin ? (
               <div className="chat-outer">
                 <Sidebar userName={userName} />

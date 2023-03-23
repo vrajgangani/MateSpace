@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
+import { Arrow90degRight, ArrowRight } from "react-bootstrap-icons";
 import { LoginContext } from "Utility/LoginContext";
 import "./Home.css";
 
 export const UserName = () => {
-  const { setUserLogin, setUserName } = useContext(LoginContext);
+  const { setUserLogin, setUserName,userName } = useContext(LoginContext);
 
   const onChangeUserName = (e) => {
     setUserName(e.target.value);
   };
-  const submitUserName = () => {
-    setUserLogin(true);
+  const submitUserName = (event) => {
+    event.preventDefault()
+    setUserLogin(Boolean(userName?.length));
   };
   return (
     <>
@@ -21,13 +23,13 @@ export const UserName = () => {
             <form onSubmit={submitUserName} className="d-flex">
               <input
                 type={"text"}
-                placeholder="Enter User Name..."
+                placeholder="Enter Your Name"
                 className="form-control"
                 onChange={onChangeUserName}
               />
 
-              <button type="submit" className="btn btn-primary mx-2">
-                Submit
+              <button type="submit" className="btn btn-primary mx-2 d-flex align-items-center">
+                Go <ArrowRight className="ms-2"/>
               </button>
             </form>
           </div>

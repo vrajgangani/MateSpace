@@ -5,7 +5,7 @@ import SelectImage from "../assets/images/select.svg";
 import NoMassageImage from '../assets/images/noMassage.svg';
 import ReciverMessage from "./ReciverMessage";
 import SenderMesage from "./SenderMesage";
-import groupDP from "../assets/images/groupIcon.jpg";
+import groupDP from "../assets/images/Logo.svg";
 import { useParams } from "react-router-dom";
 import db from "../Config/firebase";
 import {
@@ -141,9 +141,9 @@ export default function Chat({ userName }) {
                 src={SelectImage}
                 alt="select-group-img"
                 className="img-fluid mb-4"
-                style={{ height: "200px" }}
+                style={{ height: "200px",opacity:'0.9' }}
               />
-              <div>Please Create New Group or Select Group </div>
+              <div style={{opacity:'0.9'}}>Select Group To Get Started Or Create New</div>
             </div>
           </div>
         )}

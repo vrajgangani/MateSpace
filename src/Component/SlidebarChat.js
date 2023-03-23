@@ -1,5 +1,5 @@
 import React from "react";
-import groupDP from "../assets/images/groupIcon.jpg";
+import groupDP from "../assets/images/Logo.svg";
 import "../App.css";
 import { Link } from "react-router-dom";
 
@@ -23,7 +23,7 @@ export default function SlidebarChat({ addNewChat, searchedGroup }) {
             <div className="slidebar-chat p-2 m-1 rounded-2">
               <div className="person d-flex">
                 <div className="person-image ">
-                  <img src={groupDP} alt="user-dp" className="userDP" />
+                  <img src={groupDP} alt="user-dp" className="userDP"/>
                 </div>
                 <div className="person-info d-flex flex-column justify-content-center">
                   <div className="person-name">
