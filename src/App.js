@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Chat from "./Component/Chat";
+import Sidebar from "./Component/Sidebar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { UserName } from "Component/UserName";
+import { LoginContext } from "Utility/LoginContext";
 
 function App() {
+  const [userLogin, setUserLogin] = useState(false);
+  const [userName, setUserName] = useState("");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <div className="app">
+          <LoginContext.Provider value={{ setUserLogin, setUserName }}>
+            {userLogin ? (
+              <div className="chat-outer">
+                <Sidebar userName={userName} />
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<Chat userName={userName} />}
+                  ></Route>
+                  <Route
+                    path="/group/:groupID"
+                    element={<Chat userName={userName} />}
+                  ></Route>
+                </Routes>
+              </div>
+            ) : (
+              <UserName />
+            )}
+          </LoginContext.Provider>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
