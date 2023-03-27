@@ -1,17 +1,17 @@
 import React, { useContext } from "react";
-import { Arrow90degRight, ArrowRight } from "react-bootstrap-icons";
+import { ArrowRight } from "react-bootstrap-icons";
 import { LoginContext } from "Utility/LoginContext";
 import "./Home.css";
 
 export const UserName = () => {
-  const { setUserLogin, setUserName,userName } = useContext(LoginContext);
+  const { setIsUserLogin, setUserName,userName } = useContext(LoginContext);
 
   const onChangeUserName = (e) => {
     setUserName(e.target.value);
   };
   const submitUserName = (event) => {
     event.preventDefault()
-    setUserLogin(Boolean(userName?.length));
+    setIsUserLogin(Boolean(userName?.length));  //if user enter name then set it true 
   };
   return (
     <>
@@ -34,7 +34,7 @@ export const UserName = () => {
             </form>
           </div>
           <div style={{ position: "absolute", bottom: "5px", right: "10px",fontSize:'0.8rem' }}>
-            Made With <strong>🤍 Vraj Gangani</strong>
+            Made With <strong>🤍</strong>
           </div>
         </div>
         <ul className="circles">

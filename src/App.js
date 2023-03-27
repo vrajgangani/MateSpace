@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Chat from "./Component/Chat";
 import Sidebar from "./Component/Sidebar";
@@ -8,14 +8,17 @@ import { UserName } from "Component/UserName";
 import { LoginContext } from "Utility/LoginContext";
 
 function App() {
-  const [userLogin, setUserLogin] = useState(false);
+  const [isUserLogin, setIsUserLogin] = useState(false);
   const [userName, setUserName] = useState("");
+
   return (
     <>
       <BrowserRouter>
         <div className="app">
-          <LoginContext.Provider value={{ setUserLogin, setUserName,userName }}>
-            {userLogin ? (
+          <LoginContext.Provider
+            value={{ setIsUserLogin, setUserName, userName }}
+          >
+            {isUserLogin ? (
               <div className="chat-outer">
                 <Sidebar userName={userName} />
                 <Routes>
