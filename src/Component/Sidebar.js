@@ -5,18 +5,33 @@ import { collection } from "firebase/firestore";
 import db from "../Config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
-import { Person, Plus } from "react-bootstrap-icons";
+import groupDP from "../assets/images/Logo.svg";
+import { Button, Input, Modal } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
-const Sidebar = ({ userName }) => {
+const Sidebar = () => {
   const [groupData, setGroupData] = useState([]); // COLLECTION OF ALL GROUP NAMES
   const [searchGroupText, setSearchGroupText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createdGroupName, setCreatedGroupName] = useState("");
+  const [isChatNameLoading, setisChatNameLoading] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setCreatedGroupName("");
+  };
+
   const addNewGroup = async () => {
-    const newGroupName = prompt("Enter Your New Group Name");
-    if (newGroupName) {
-      await setDoc(doc(db, "groups", newGroupName), {
-        name: newGroupName,
+    if (createdGroupName) {
+      await setDoc(doc(db, "groups", createdGroupName), {
+        name: createdGroupName,
       });
     }
+    setIsModalOpen(false);
+    setCreatedGroupName("");
   };
 
   const searchedGroup = groupData.filter((item) => {
@@ -29,6 +44,7 @@ const Sidebar = ({ userName }) => {
   };
 
   const getGroupData = async () => {
+    setisChatNameLoading(true);
     onSnapshot(collection(db, "groups"), (snapShopt) => {
       let list = [];
       snapShopt.docs.forEach((doc) => {
@@ -38,6 +54,7 @@ const Sidebar = ({ userName }) => {
         });
       });
       setGroupData(list);
+      setisChatNameLoading(false);
     });
   };
 
@@ -49,36 +66,64 @@ const Sidebar = ({ userName }) => {
     <>
       <div className="sidebar-box">
         <div className="sidebar-navbar">
-          <div className="appliaction-slidebar-header d-flex justify-content-between ">
-            <div>
-              <div className="appliaction-name">MateSpace</div>
-            </div>
-            <div className="tooltp user">
-              <span className="tooltpText us">
-                {userName.length > 10
-                  ? userName.substring(0, 10)+"..."
-                  : userName}
-              </span>
-              <Person className="profile-icon" />
-            </div>
+          <div className="appliaction-slidebar-header d-flex justify-content-center align-items-center">
+            <img
+              src={groupDP}
+              alt="appliaction-logo"
+              className="sidebar-header-logo"
+            />
+            <div className="appliaction-name">MateSpace</div>
           </div>
-          <div className="search-user-div d-flex justify-content-center align-items-center">
-            <input
-              type="text"
-              placeholder="Search or Start a New Chat"
-              className="search-user rounded-2"
+
+          <div className="search-group">
+            <Input
+              size="large"
+              placeholder="Search Groups"
+              prefix={<SearchOutlined />}
               onChange={onChangeSearchBox}
             />
-            <div className="slidebar-add-new-chat p-2 mx-3  rounded-2 d-flex ">
-              <button className="btnn" onClick={addNewGroup}>
-                <Plus />
-              </button>
-            </div>
+          </div>
+
+          <div className="create-group-button">
+            <Button
+              block
+              onClick={showModal}
+              size="large"
+              style={{ backgroundColor: "#0078F2", color: "white" }}
+            >
+              Create New Group
+            </Button>
+            <Modal
+              centered
+              title="New Group Chat"
+              open={isModalOpen}
+              onOk={addNewGroup}
+              onCancel={handleCancel}
+              okText="Create"
+              footer={[
+                <Button
+                  key="submit"
+                  style={{ backgroundColor: "#0078F2", color: "white" }}
+                  onClick={addNewGroup}
+                >
+                  Create
+                </Button>,
+              ]}
+            >
+              <Input
+                placeholder="Group Name"
+                onChange={(e) => setCreatedGroupName(e.target.value)}
+                value={createdGroupName}
+              />
+            </Modal>
           </div>
         </div>
 
         <div className="slidebar-chatbox">
-          <SlidebarChat searchedGroup={searchedGroup} />
+          <SlidebarChat
+            searchedGroup={searchedGroup}
+            isChatNameLoading={isChatNameLoading}
+          />
         </div>
       </div>
     </>

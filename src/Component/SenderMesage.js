@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import copy from "copy-to-clipboard";
-import { Clipboard, ClipboardCheckFill } from "react-bootstrap-icons";
+import React from "react";
 import Linkify from "react-linkify";
+import { CopyBlock, monoBlue} from "react-code-blocks";
 
-export default function SenderMesage({ senderMsg }) {
-  const [isCopy, setIsCopy] = useState(false);
-  const copyToClipboard = () => {
-    copy(senderMsg?.massage);
-    setIsCopy(true);
-  };
+export default function SenderMesage({ senderMsg}) {
 
   const componentDecorator = (href, text, key) => (
-    <a href={href} key={key} target="_blank" rel="nereferrer">
+    <a href={href} key={key} target="_blank" rel="nereferrer noreferrer">
       {text}
     </a>
   );
@@ -20,18 +14,28 @@ export default function SenderMesage({ senderMsg }) {
     ?.toLocaleTimeString()
     ?.replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
-  return (
-    <div>
-      <p className="sender-chat">
-        <Linkify componentDecorator={componentDecorator}>
-          {senderMsg?.massage}
-        </Linkify>
+  console.log(senderMsg);
 
-        <span className="copy-text" onClick={copyToClipboard}>
-          {isCopy ? <ClipboardCheckFill /> : <Clipboard />}
-        </span>
-        <span className="sender-time">{getDataBaseTime}</span>
-      </p>
+  return (
+    <div className="sender-msg-container d-flex flex-column">
+      <span className="sender-time">{getDataBaseTime}</span>
+      {senderMsg.isCodeStyle ? (
+        <div className="code-style-text-sender">
+          <CopyBlock
+            text={senderMsg?.massage}
+            showLineNumbers={false}
+            theme={	monoBlue}
+            codeBlock
+            language="html"
+          />
+        </div>
+      ) : (
+        <pre className="sender-chat">
+          <Linkify componentDecorator={componentDecorator}>
+            {senderMsg?.massage}
+          </Linkify>
+        </pre>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Chat from "./Component/Chat";
 import Sidebar from "./Component/Sidebar";
@@ -13,6 +13,8 @@ function App() {
 
   return (
     <>
+      <div id="ndrsl-wol-642bf4af00fc6f440d203953" className="ndrsl-widget"></div>
+
       <BrowserRouter>
         <div className="app">
           <LoginContext.Provider
