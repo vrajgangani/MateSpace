@@ -9,12 +9,13 @@ import groupDP from "../assets/images/Logo.svg";
 import { Button, Input, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
-const Sidebar = () => {
+const Sidebar = ({setIsChatOpen}) => {
   const [groupData, setGroupData] = useState([]); // COLLECTION OF ALL GROUP NAMES
   const [searchGroupText, setSearchGroupText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createdGroupName, setCreatedGroupName] = useState("");
   const [isChatNameLoading, setisChatNameLoading] = useState(false);
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -25,12 +26,12 @@ const Sidebar = () => {
   };
 
   const addNewGroup = async () => {
+    setIsModalOpen(false);
     if (createdGroupName) {
       await setDoc(doc(db, "groups", createdGroupName), {
         name: createdGroupName,
       });
     }
-    setIsModalOpen(false);
     setCreatedGroupName("");
   };
 
@@ -123,6 +124,7 @@ const Sidebar = () => {
           <SlidebarChat
             searchedGroup={searchedGroup}
             isChatNameLoading={isChatNameLoading}
+            setIsChatOpen={setIsChatOpen}
           />
         </div>
       </div>

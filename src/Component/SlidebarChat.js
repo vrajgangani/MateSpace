@@ -5,7 +5,15 @@ import { Avatar } from "antd";
 import { ChatNameLoader } from "./ChatNameLoader";
 
 //LIST OF ALL GROUPS
-export default function SlidebarChat({ searchedGroup, isChatNameLoading }) {
+
+export default function SlidebarChat({
+  searchedGroup,
+  isChatNameLoading,
+  setIsChatOpen,
+}) {
+  const openGroupChatScreen = () => {
+    setIsChatOpen(true);
+  };
   return (
     <div className="slidebar-chat p-2 m-1">
       {isChatNameLoading ? (
@@ -26,6 +34,7 @@ export default function SlidebarChat({ searchedGroup, isChatNameLoading }) {
               <Link
                 to={`group/${item.id}`}
                 style={{ textDecoration: "none", color: "black" }}
+                onClick={() => openGroupChatScreen()}
               >
                 <div className="d-flex sidebar-chat-groupname">
                   <div className="group-icon">
@@ -51,7 +60,6 @@ export default function SlidebarChat({ searchedGroup, isChatNameLoading }) {
                   </div>
                   <div className="person-info d-flex flex-column justify-content-center">
                     <div className="person-name">
-                      
                       {/* IF GROUP NAME IS BIG THEN ADJUST IT IN LIMITED STRING */}
                       {item?.name.length > 25
                         ? item?.name.slice(0, 25) + "..."

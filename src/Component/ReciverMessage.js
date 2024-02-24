@@ -32,6 +32,7 @@ export default function ReciverMessage({ reciverMsg }) {
             showLineNumbers={false}
             theme={monoBlue}
             codeBlock
+            language="html"
           />
         </div>
       ) : (

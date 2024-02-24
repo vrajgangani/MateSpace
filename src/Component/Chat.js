@@ -18,9 +18,9 @@ import {
 } from "firebase/firestore";
 import { Avatar } from "antd";
 import EmojiPicker from "emoji-picker-react";
-import {CodeSlash, EmojiSmile } from "react-bootstrap-icons";
+import { ArrowLeft, CodeSlash, EmojiSmile } from "react-bootstrap-icons";
 
-export default function Chat({ userName }) {
+export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
   const name = userName;
 
   const { groupID } = useParams(); // SELECTED GROUP ID FROM ALL GROUPS
@@ -115,7 +115,13 @@ export default function Chat({ userName }) {
         {groupName !== "" && (
           <div className="chat-navbar">
             <div className="chatbox-chat ">
-              <div className="person d-flex">
+              <div className="person d-flex align-items-center">
+                {isChatOpen && (
+                  <ArrowLeft
+                    onClick={() => setIsChatOpen(false)}
+                    style={{ margin: "0px 7px 0px 7px", fontSize: "1.2rem" }}
+                  />
+                )}
                 <div className="group-icon">
                   <Avatar
                     style={{
@@ -124,7 +130,7 @@ export default function Chat({ userName }) {
                       height: "40px",
                       width: "40px",
                       marginRight: "10px",
-                      fontSize: "1.2rem",
+                      fontSize: "1rem",
                       fontWeight: "500",
                     }}
                   >
@@ -155,7 +161,7 @@ export default function Chat({ userName }) {
               </div>
             </div>
           ) : (
-            <div className="chat-display p-3">
+            <div className="chat-display">
               {chatMassages.map((data, index) => {
                 return (
                   <div key={index}>
@@ -203,26 +209,27 @@ export default function Chat({ userName }) {
             </div>
             <form
               onSubmit={onSubmitMsg}
-              className="chat-typing-bar flex items-center mx-lg-5"
+              className="chat-typing-bar"
             >
-              <div className="flex items-center px-3 py-1 rounded-5 w-full bgc-light-blue ">
+              <div className="chat-typing-tools flex items-center rounded-5 bgc-light-blue ">
                 <button
                   type="button"
-                  className="inline-flex justify-center p-1 text-xl  rounded-2 cursor-pointer hover:text-[#0078F2]"
-                  onClick={() => setisCodeStyle(!isCodeStyle)}
-                >
-                  <CodeSlash color={codeSelected} />
-                </button>
-                <button
-                  type="button"
-                  className=" p-1 text-xl rounded-2 cursor-pointer"
+                  className="emoji-button text-xl rounded-2 cursor-pointer"
                   onClick={() => setEmojiShowPicker((val) => !val)}
                 >
                   <EmojiSmile />
                 </button>
+                <button
+                  type="button"
+                  className="code-button inline-flex justify-center text-xl  rounded-2 cursor-pointer hover:text-[#0078F2]"
+                  onClick={() => setisCodeStyle(!isCodeStyle)}
+                >
+                  <CodeSlash style={{ color: codeSelected }} />
+                </button>
+
                 <textarea
                   rows="1"
-                  className="chat-type-textarea block mx-0 p-2.5 w-full text-md text-dark-900 bg-transparent rounded-lg focus:outline-none "
+                  className="chat-type-textarea block mx-0 w-full text-md text-dark-900 bg-transparent rounded-lg focus:outline-none "
                   placeholder="Type a message..."
                   onKeyDown={handleKeyDown}
                   value={temporaryMsg}
@@ -232,7 +239,7 @@ export default function Chat({ userName }) {
 
               <button
                 type="submit"
-                className="inline-flex justify-center p-3 m-1 rounded-5 text-blue-600 cursor-pointer hover:bg-blue-100 bgc-light-blue"
+                className="send-button inline-flex justify-center rounded-5 text-blue-600 cursor-pointer hover:bg-blue-100 bgc-light-blue"
               >
                 <svg
                   className="w-5 h-5 rotate-90 rtl:-rotate-90"

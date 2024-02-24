@@ -37,10 +37,11 @@ overflow: hidden;
   background-color:white ;
   display: flex;
   flex-direction:column;
+  padding: 5px 10px 10px 10px ;
 }
 .chat-navbar{
   flex:0.12;
-  padding: 10px;
+  padding-bottom: 5px ;
   border-bottom: 2px solid ;
   border-color: var(--light-blue);
 
@@ -116,20 +117,37 @@ scrollbar-width: none;
 /* CHAT TYPING STYLE */
 .chat-type-textarea{
   resize: none;
+  padding: 4px 5px;
 }
 .chat-type-textarea::-webkit-scrollbar{
   display: none;
 }
 .chat-typing-bar{
-  padding: 5px;
   flex: 0.12;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 .code-selected-button{
   background-color: var(--blue);
   padding: 10px;
   color: white;
 }
-
+.chat-typing-tools{
+  padding: 7px 10px;
+  width: 80%;
+}
+.send-button{
+  padding: 13px;
+  margin-left: 3px;
+}
+.code-button{
+  padding: 0px 7px 0px 0px;
+}
+.emoji-button{
+  padding: 0px 7px 0px 3px;
+}
 /* SIDEBAR CHAT */
 
 .appliaction-name{
@@ -188,4 +206,29 @@ scrollbar-width: none;
 .slidebar-chatbox {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  }
+
+  @media screen and (max-width:900px) {
+    .chat-box{
+      flex: 1;
+      height: 100vh !important;
+      padding: 9px 9px 5px 9px;
+    }
+    .chat-navbar{
+      flex: none;
+      padding-bottom: 7px;
+    }
+    .sidebar-box{
+      flex: 1;
+    }
+    .reciver-chat,.sender-chat{
+      padding: 6px 9px;
+      max-width: 85%;
+    }
+    .reciver-chat{
+      margin-bottom: 5px;
+    }
+    .chat-typing-tools{
+      width:100%;
+    }
   }

@@ -14,8 +14,6 @@ export default function SenderMesage({ senderMsg}) {
     ?.toLocaleTimeString()
     ?.replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
-  console.log(senderMsg);
-
   return (
     <div className="sender-msg-container d-flex flex-column">
       <span className="sender-time">{getDataBaseTime}</span>
