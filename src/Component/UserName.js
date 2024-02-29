@@ -26,8 +26,8 @@ export const UserName = () => {
           <div className="usename-box ">
             <h5 className="card-title text-center ">Welcome To MateSpace</h5>
 
-            <form onSubmit={submitUserName} className="d-lg-flex d-md-flex">
-              <div className="div-center">
+            <form onSubmit={submitUserName} className="d-lg-flex d-md-flex justify-content-center">
+              <div className="div-center ">
               <input
                 type={"text"}
                 placeholder="Enter Your Name"
