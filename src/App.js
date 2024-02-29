@@ -6,26 +6,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserName } from "Component/UserName";
 import { LoginContext } from "Utility/LoginContext";
+import usePreventZoom from "./usePreventZoom";
 
 function App() {
   const [isUserLogin, setIsUserLogin] = useState(false);
   const [userName, setUserName] = useState("");
-
+  
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 900);
     };
-
+    
     window.addEventListener("resize", handleResize);
-
+    
     // Cleanup function to remove the event listener when component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []); // Empty dependency array ensures that the effect runs only once after mount
+  usePreventZoom();
 
   return (
     <>
@@ -45,6 +47,16 @@ function App() {
                 <div className="chat-outer ">
                   {isChatOpen ? (
                     <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          <Chat
+                            userName={userName}
+                            setIsChatOpen={setIsChatOpen}
+                            isChatOpen={isChatOpen}
+                          />
+                        }
+                      ></Route>
                       <Route
                         path="/group/:groupID"
                         element={
@@ -69,12 +81,19 @@ function App() {
             ) : //NORMAL  DESKTOP VIEW
             isUserLogin ? (
               <div className="chat-outer ">
-                <Sidebar userName={userName} />
-
+                <Sidebar userName={userName} setIsChatOpen={setIsChatOpen} />
                 <Routes>
                   <Route
+                    path="/"
+                    element={
+                      <Chat userName={userName} setIsChatOpen={setIsChatOpen} />
+                    }
+                  ></Route>
+                  <Route
                     path="/group/:groupID"
-                    element={<Chat userName={userName} />}
+                    element={
+                      <Chat userName={userName} setIsChatOpen={setIsChatOpen} />
+                    }
                   ></Route>
                 </Routes>
               </div>
@@ -89,31 +108,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Route
-                    path="/"
-                    element={<Chat userName={userName} />}
-                  ></Route> */
-}
-
-{
-  /* {isUserLogin ? (
-              <div className="chat-outer ">
-                <Sidebar userName={userName} />
-
-                <Routes>
-                  <Route
-                    path="/"
-                    element={<Chat userName={userName} />}
-                  ></Route>
-                  <Route
-                    path="/group/:groupID"
-                    element={<Chat userName={userName} />}
-                  ></Route>
-                </Routes>
-              </div>
-            ) : (
-              <UserName />
-            )} */
-}

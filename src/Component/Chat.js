@@ -32,13 +32,14 @@ export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
   const bottomRef = useRef(null);
   const codeSelected = isCodeStyle && "#0078F2";
 
+  
   const onEmojiClick = (event) => {
     setTemporaryMsg((prevInput) => prevInput + event.emoji);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+      e.preventDefault();      
       onSubmitMsg();
     }
   };
@@ -47,7 +48,6 @@ export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
     if (event) {
       event.preventDefault();
     }
-    // setTemporaryMsg("");
     setEmojiShowPicker(false);
 
     if (!!temporaryMsg.trim().length) {
@@ -138,7 +138,7 @@ export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
                   </Avatar>
                 </div>
                 <div className="person-info d-flex flex-column justify-content-center">
-                  <div className="person-name">{groupName}</div>
+                  <div className="group-name">{groupName}</div>
                 </div>
               </div>
             </div>

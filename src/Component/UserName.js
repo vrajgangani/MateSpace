@@ -26,17 +26,19 @@ export const UserName = () => {
           <div className="usename-box ">
             <h5 className="card-title text-center ">Welcome To MateSpace</h5>
 
-            <form onSubmit={submitUserName} className="d-lg-flex d-md-flex ">
+            <form onSubmit={submitUserName} className="d-lg-flex d-md-flex">
+              <div className="div-center">
               <input
                 type={"text"}
                 placeholder="Enter Your Name"
                 className="form-control"
                 onChange={onChangeUserName}
-              />
+                />
+                </div>
               <div className="div-center">
                 <button
                   type="submit"
-                  className="btn btn-primary mx-2 my-2 my-lg-0 my-xl-0 my-xxl-0 my-md-0 d-flex align-items-center justify-content-center w-75"
+                  className="btn btn-primary mx-2 my-2 my-lg-0 my-xl-0 my-xxl-0 my-md-0 d-flex align-items-center justify-content-center w-100"
                 >
                   Go <ArrowRight className="ms-2" />
                 </button>

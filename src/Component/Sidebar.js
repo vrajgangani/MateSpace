@@ -8,21 +8,23 @@ import { onSnapshot } from "firebase/firestore";
 import groupDP from "../assets/images/Logo.svg";
 import { Button, Input, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { Checkbox } from "antd";
 
-const Sidebar = ({setIsChatOpen}) => {
+const Sidebar = ({ setIsChatOpen }) => {
   const [groupData, setGroupData] = useState([]); // COLLECTION OF ALL GROUP NAMES
   const [searchGroupText, setSearchGroupText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createdGroupName, setCreatedGroupName] = useState("");
   const [isChatNameLoading, setisChatNameLoading] = useState(false);
+  const [isPrivateGroup, setIsPrivateGroup] = useState(false);
+  const [groupPassword, setGroupPassword] = useState("");
 
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
   const handleCancel = () => {
     setIsModalOpen(false);
     setCreatedGroupName("");
+    setIsPrivateGroup(false);
+    setGroupPassword("");
   };
 
   const addNewGroup = async () => {
@@ -30,9 +32,13 @@ const Sidebar = ({setIsChatOpen}) => {
     if (createdGroupName) {
       await setDoc(doc(db, "groups", createdGroupName), {
         name: createdGroupName,
+        isPrivateGroup: isPrivateGroup,
+        groupPassword: groupPassword,
       });
     }
     setCreatedGroupName("");
+    setIsPrivateGroup(false);
+    setGroupPassword("");
   };
 
   const searchedGroup = groupData.filter((item) => {
@@ -62,7 +68,6 @@ const Sidebar = ({setIsChatOpen}) => {
   useEffect(() => {
     getGroupData();
   }, []);
-
   return (
     <>
       <div className="sidebar-box">
@@ -88,7 +93,7 @@ const Sidebar = ({setIsChatOpen}) => {
           <div className="create-group-button">
             <Button
               block
-              onClick={showModal}
+              onClick={() => setIsModalOpen(true)}
               size="large"
               style={{ backgroundColor: "#0078F2", color: "white" }}
             >
@@ -108,7 +113,7 @@ const Sidebar = ({setIsChatOpen}) => {
                   onClick={addNewGroup}
                 >
                   Create
-                </Button>,
+                </Button>
               ]}
             >
               <Input
@@ -116,6 +121,21 @@ const Sidebar = ({setIsChatOpen}) => {
                 onChange={(e) => setCreatedGroupName(e.target.value)}
                 value={createdGroupName}
               />
+
+              <Checkbox
+                onChange={(e) => setIsPrivateGroup(e.target.checked)}
+                checked={isPrivateGroup}
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                Make this group Private Group?
+              </Checkbox>
+              {isPrivateGroup && (
+                <Input
+                  placeholder="Enter Password"
+                  onChange={(e) => setGroupPassword(e.target.value)}
+                  value={groupPassword}
+                />
+              )}
             </Modal>
           </div>
         </div>
@@ -125,6 +145,7 @@ const Sidebar = ({setIsChatOpen}) => {
             searchedGroup={searchedGroup}
             isChatNameLoading={isChatNameLoading}
             setIsChatOpen={setIsChatOpen}
+            isPrivateGroup={isPrivateGroup}
           />
         </div>
       </div>
