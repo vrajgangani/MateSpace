@@ -42,7 +42,7 @@ const Sidebar = ({ setIsChatOpen }) => {
   };
 
   const searchedGroup = groupData.filter((item) => {
-    return item.name.toLowerCase().includes(searchGroupText);
+    return item?.name?.toLowerCase().includes(searchGroupText);
   });
   //SEARCHED GROUP OF ARRAY BY USER
 

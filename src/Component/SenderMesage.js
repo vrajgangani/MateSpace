@@ -1,9 +1,10 @@
 import React from "react";
 import Linkify from "react-linkify";
-import { CopyBlock, monoBlue} from "react-code-blocks";
+import { CopyBlock, monoBlue } from "react-code-blocks";
+import { MoreOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
 
-export default function SenderMesage({ senderMsg}) {
-
+export default function SenderMesage({ senderMsg }) {
   const componentDecorator = (href, text, key) => (
     <a href={href} key={key} target="_blank" rel="nereferrer noreferrer">
       {text}
@@ -22,17 +23,19 @@ export default function SenderMesage({ senderMsg}) {
           <CopyBlock
             text={senderMsg?.massage}
             showLineNumbers={false}
-            theme={	monoBlue}
+            theme={monoBlue}
             codeBlock
             language="html"
           />
         </div>
       ) : (
-        <pre className="sender-chat">
-          <Linkify componentDecorator={componentDecorator}>
-            {senderMsg?.massage}
-          </Linkify>
-        </pre>
+        <div className="d-flex justify-content-center align-items-centers">
+          <pre className="sender-chat">
+            <Linkify componentDecorator={componentDecorator}>
+              {senderMsg?.massage}
+            </Linkify>
+          </pre>
+        </div>
       )}
     </div>
   );

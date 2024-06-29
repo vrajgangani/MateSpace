@@ -9,8 +9,10 @@ import db from "../Config/firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -25,21 +27,21 @@ export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
 
   const { groupID } = useParams(); // SELECTED GROUP ID FROM ALL GROUPS
   const [groupName, setGroupName] = useState("");
-  const [temporaryMsg, setTemporaryMsg] = useState(undefined); // MASGE TYPED BY USER
+  const [temporaryMsg, setTemporaryMsg] = useState(""); // MASGE TYPED BY USER
   const [chatMassages, setChatMassages] = useState([]); // SELECTED GROUP ALL MASSAGES ARRAY
   const [showEmojiPicker, setEmojiShowPicker] = useState(false);
   const [isCodeStyle, setisCodeStyle] = useState(false);
   const bottomRef = useRef(null);
   const codeSelected = isCodeStyle && "#0078F2";
 
-  
+
   const onEmojiClick = (event) => {
     setTemporaryMsg((prevInput) => prevInput + event.emoji);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();      
+      e.preventDefault();
       onSubmitMsg();
     }
   };
@@ -207,10 +209,7 @@ export default function Chat({ userName, isChatOpen, setIsChatOpen }) {
                 />
               )}
             </div>
-            <form
-              onSubmit={onSubmitMsg}
-              className="chat-typing-bar"
-            >
+            <form onSubmit={onSubmitMsg} className="chat-typing-bar">
               <div className="chat-typing-tools flex items-center rounded-5 bgc-light-blue ">
                 <button
                   type="button"

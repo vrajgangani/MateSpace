@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { React, useState } from "react";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
@@ -5,6 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { Avatar, Button, Input, Modal } from "antd";
 import { Spin, Typography } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
+import { Dropdown, Space } from "antd";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
+import db from "Config/firebase";
 const { Text } = Typography;
 
 //LIST OF ALL GROUPS
@@ -18,7 +23,15 @@ export default function SlidebarChat({
   const [tempPassword, setTempPassword] = useState("");
   const [isWrongPass, setIsWrongPass] = useState(false);
   const [isPassWordModel, setIsPassWordModel] = useState(false);
+  const [updateGroupModel, setUpdateGroupModel] = useState(false);
   const [selectedGroupData, setSelectedGroupData] = useState("");
+  const [groupName, setGroupName] = useState(selectedGroupData.name);
+
+  const updatedObject = {
+    name: groupName,
+    isPrivateGroup: selectedGroupData.isPrivateGroup,
+    groupPassword: selectedGroupData.groupPassword,
+  };
 
   function checkGroupPassword(item) {
     if (item?.isPrivateGroup) {
@@ -47,6 +60,46 @@ export default function SlidebarChat({
     setIsWrongPass(false);
   };
 
+  // const updateGroupName = async () => {
+  //   console.log("updatename");
+  //   setUpdateGroupModel(true);
+  //   await setDoc(doc(db, "groups", selectedGroupData.id), updatedObject);
+  //   setUpdateGroupModel(false);
+  // };
+
+  // const deleteGroupName = async () => {
+  //   console.log("delted");
+  //   await deleteDoc(doc(db, "groups", selectedGroupData.id));
+  // };
+
+  // const items = [
+  //   {
+  //     key: "1",
+  //     label: (
+  //       <a
+  //         rel="noopener noreferrer"
+  //         className="text-decoration-none"
+  //         onClick={updateGroupName}
+  //       >
+  //         Update Name
+  //       </a>
+  //     ),
+  //   },
+  //   {
+  //     key: "2",
+  //     danger: true,
+  //     label: (
+  //       <a
+  //         rel="noopener noreferrer"
+  //         className="text-decoration-none"
+  //         onClick={deleteGroupName}
+  //       >
+  //         Delete Name
+  //       </a>
+  //     ),
+  //   },
+  // ];
+
   return (
     <div className="slidebar-chat p-2 m-1">
       <Modal
@@ -71,6 +124,29 @@ export default function SlidebarChat({
         />
         {isWrongPass && <Text type="danger">Incorrect Password!</Text>}
       </Modal>
+
+      {/* <Modal
+        title={` Enter New Name`}
+        open={updateGroupModel}
+        onOk={updateGroupName}
+        onCancel={() => setUpdateGroupModel(false)}
+        footer={[
+          <Button
+            key="submit"
+            style={{ backgroundColor: "#0078F2", color: "white" }}
+            onClick={updateGroupName}
+          >
+            Update
+          </Button>,
+        ]}
+      >
+        <Input
+          placeholder="Enter Name"
+          onChange={(e) => setGroupName(e.target.value)}
+          value={groupName}
+        />
+      </Modal> */}
+
       {isChatNameLoading ? (
         <div className="div-center">
           <Spin />
@@ -80,14 +156,37 @@ export default function SlidebarChat({
         searchedGroup?.map((item, index) => {
           return (
             <div
-              key={index}
-              onClick={() => {
-                checkGroupPassword(item);
-                setSelectedGroupData(item);
-              }}
               style={{ cursor: "pointer" }}
+              key={index}
+              className="d-flex align-items-center justify-align-content-between "
             >
-              <div className="d-flex sidebar-chat-groupname">
+              {/* <Dropdown
+                className="cursor-pointer"
+                menu={{
+                  items,
+                }}
+                trigger={["click"]}
+              >
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedGroupData(item);
+                  }}
+                >
+                  <Space>
+                    <MoreOutlined />
+                  </Space>
+                </a>
+              </Dropdown> */}
+              <div
+                className="d-flex sidebar-chat-groupname"
+                key={index}
+                onClick={() => {
+                  checkGroupPassword(item);
+                  setSelectedGroupData(item);
+                }}
+                style={{ cursor: "pointer",width:"100%" }}
+              >
                 <div className="group-icon">
                   <Avatar
                     style={{
